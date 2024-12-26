@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     if (!error) {
       const forwardedHost = request.headers.get("x-forwarded-host");
       const isLocalEnv = process.env.NODE_ENV === "development";
-
+``
       if (isLocalEnv) {
         // console.log('로컬환경');
         return NextResponse.redirect(`${origin}${next}`);

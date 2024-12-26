@@ -30,7 +30,8 @@ const FeedList = () => {
     status: FeedListStatus,
     error: FeedListError,
     refetch,
-    isLoading
+    isLoading,
+    isFetchingNextPage
   } = useInfiniteQuery({
     queryKey: ["getFeedList"],
     queryFn: async ({ pageParam = 0 }) => {
@@ -45,16 +46,16 @@ const FeedList = () => {
   });
 
   useEffect(() => {
-    if (isView && FeedListHasNextPage) {
+    if (isView && FeedListHasNextPage && !isFetchingNextPage) {
       FeedListFetchNextPage();
     }
-  }, [isView, FeedListHasNextPage, FeedListFetchNextPage, FeedList]);
+  }, [isView, FeedListHasNextPage, FeedListFetchNextPage, isFetchingNextPage]);
 
   console.log('data', FeedList, FeedList?.pages);
 
   return (
     <div className={s.feedList}>
-      {isLoading && <FeedSkeleton />}
+      {(isLoading || isFetchingNextPage) && <FeedSkeleton />}
       {FeedList &&
         <div>
           {FeedList?.pages?.map((item: any, index: any) => (

@@ -14,16 +14,16 @@ export async function GET(request: Request) {
     const startIndex = page == 0 ? 0 : (page - 1) * pageSize;
     const endIndex = startIndex + pageSize - 1;
 
-    console.log("route: ", page, pageSize, startIndex, endIndex);
+    // console.log("route: ", page, pageSize, startIndex, endIndex);
 
     const { data, error } = await supabase
       .from("youtube")
       .select("*", { count: "exact" })
       .order("id", { ascending: true })
-      // .range(startIndex, endIndex);
-      .range(0, 10);
+      .range(startIndex, endIndex);
+      // .range(0, 10);
 
-    console.log("route data: ", data);
+    // console.log("route data: ", data);
 
     if (error) {
       throw error;
