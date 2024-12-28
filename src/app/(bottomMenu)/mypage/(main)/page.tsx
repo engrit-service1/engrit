@@ -20,7 +20,7 @@ const MyPage = () => {
   return (
     <>
       <div>
-        <div className={s.title}>이름</div>
+        <div className={s.title}>이름이름</div>
         <div className="input_wrap">
           <input type="text" value={''} /><button>usrud</button>
         </div>
