@@ -7,7 +7,6 @@ export default async function Page() {
   const supabase = createClient(cookieStore)
 
   const { data: todos } = await supabase.from('youtube').select('*')
-  console.log('data:', todos);
 
   return (
     <ul>11

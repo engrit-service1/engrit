@@ -1,20 +1,19 @@
 'use client';
-import { useParams } from 'next/navigation';
-import s from './edit.module.scss';
-import { useEffect, useState } from 'react';
+import { getFeedIDApi } from '@/api/board';
 import { fetchTranscript } from '@/api/youtube';
-import YoutubeVideo from '@/components/youtubeVideo/YoutubeVideo';
+import YoutubeTag from '@/components/youtubeTag/YoutubeTag';
 import YoutubeData from '@/components/youtubeVideo/YoutubeData';
 import YoutubeScript from '@/components/youtubeVideo/YoutubeScript';
+import YoutubeVideo from '@/components/youtubeVideo/YoutubeVideo';
+import { layoutStore } from '@/store/layoutStore';
 import { useQuery } from '@tanstack/react-query';
-import { getFeedIDApi } from '@/api/board';
-import YoutubeTag from '@/components/youtubeTag/YoutubeTag';
-import Loading from '@/components/loading/Loading';
-import { useLayoutContext } from '@/context/LayoutContext';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import s from './edit.module.scss';
 
 const Edit = () => {
   const params = useParams<{ id: string }>();
-  const { setTag } = useLayoutContext();
+  const setTag = layoutStore((state) => state.setTag);
   const [script, setScript] = useState<any>();
   const [group, setGroup] = useState<number>(0);
   // 유튜브 재생 시간
@@ -22,12 +21,10 @@ const Edit = () => {
 
   const videoIndex = parseInt(params.id);
 
-  const { data, isSuccess, isLoading } = useQuery({
+  const { data, isSuccess } = useQuery({
     queryKey: ['feedId', videoIndex],
     queryFn: () => getFeedIDApi(videoIndex),
   })
-
-  console.log('data', data);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,7 +53,6 @@ const Edit = () => {
           </div>
         </>
       }
-      {isLoading && <Loading />}
     </div>
   );
 };

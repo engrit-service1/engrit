@@ -16,9 +16,7 @@ export async function POST(request: Request) {
     if (!youtube_link) {
       throw new Error("youtube_link is required");
     }
-
-    console.log("upload: ", youtube_link, uploader);
-
+    
     const { data, error } = await supabase
       .from("youtube")
       .insert([{ youtube_link, uploader, tag }]);

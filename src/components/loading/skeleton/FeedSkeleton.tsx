@@ -9,7 +9,11 @@ const FeedSkeleton = () => {
         loop
         animationData={data}
         play
-      // style={{ width: 1000, height: 1000 }}
+      />
+      <Lottie
+        loop
+        animationData={data}
+        play
       />
     </div>
   );

@@ -1,6 +1,5 @@
 'use client';
 import BottomMenu from "@/components/bottomMenu/BottomMenu";
-import FeedList from "@/components/feed/FeedList";
 import Header from "@/components/header/Header";
 import { useEffect, useState } from "react";
 import { useUser } from "@supabase/auth-helpers-react";
@@ -8,6 +7,10 @@ import { createClient } from "@/util/supabase/client";
 import { useStore } from "zustand";
 import { UserStore } from "@/store/user";
 import Loading from "@/components/loading/Loading";
+import dynamic from "next/dynamic";
+const FeedList = dynamic(() => import("@/components/feed/FeedList"), {
+  ssr: false,
+});
 
 export default function Home() {
   const supabase = createClient();
@@ -16,8 +19,7 @@ export default function Home() {
   useEffect(() => {
     const user = async () => {
       const session = await supabase.auth.getSession();
-      console.log('aa', session);
-      // console.log('dd', session.data.session?.user?.user_metadata?.email);
+      // console.log('session', session);
       setUserEmail(session.data.session?.user?.user_metadata?.email);
     }
     user();

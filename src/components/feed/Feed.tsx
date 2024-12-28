@@ -1,17 +1,25 @@
 'use client';
-import { forwardRef, Ref, useState } from 'react';
-import YoutubeVideo from '../youtubeVideo/YoutubeVideo';
+import { youtubeInfoApi } from '@/api/youtube';
+import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
+import { forwardRef, lazy, Ref, Suspense, useState } from 'react';
+import PageAction from '../pageAction/PageAction';
 import YoutubeData from '../youtubeVideo/YoutubeData';
 import YoutubeScript from '../youtubeVideo/YoutubeScript';
-import Link from 'next/link';
-import PageAction from '../pageAction/PageAction';
+import YoutubeVideo from '../youtubeVideo/YoutubeVideo';
+import Loading from '../loading/Loading';
+// const YoutubeScript = lazy(() => import('../youtubeVideo/YoutubeScript'));
 
 type feedType = {
   data?: any;
+  isBookmark: boolean;
+  className?: string;
 };
 
 const Feed = forwardRef(({
   data,
+  isBookmark,
+  className
 }: feedType, ref: Ref<HTMLDivElement>) => {
 
   const [videoTime, setVideoTime] = useState(0);
@@ -23,12 +31,14 @@ const Feed = forwardRef(({
   return (
     <div ref={ref}>
       <YoutubeVideo videoId={data?.youtube_link} onTimeUpdate={handleTimeUpdate} />
-      <Link href={`/detail/${data?.id}`} className='block pt-16 pr-20 pb-20 pl-20'>
+      <Link href={`/detail/${data?.id}`} className='block pt-16 pb-20 pl-20 pr-20'>
         <YoutubeData videoId={data?.youtube_link}>
-          <PageAction onClick={(e: any) => { e.stopPropagation(); e.preventDefault() }} data={data} />
+          <PageAction onClick={(e: any) => { e.stopPropagation(); e.preventDefault() }} data={data}
+            isBookmark={isBookmark}
+          />
         </YoutubeData>
-        {/* <YoutubeScript videoTime={videoTime} videoId={data.youtube_link} viewLength={1} /> */}
-        <div>{data?.tag?.replace(/(?!^)(#)/g, ' $1')}</div>
+        <YoutubeScript videoTime={videoTime} videoId={data.youtube_link} viewLength={1} className={className} />
+        <div className="text-[#40A9FF]">{data?.tag?.replace(/(?!^)(#)/g, ' $1')}</div>
       </Link>
     </div>
   );

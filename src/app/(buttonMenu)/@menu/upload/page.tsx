@@ -1,14 +1,18 @@
 'use client';
 import { postPeed } from '@/api/board';
 import BottomMenu from '@/components/bottomMenu/BottomMenu';
-import { useLayoutContext } from '@/context/LayoutContext';
+import { layoutStore } from '@/store/layoutStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const Bottom = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { menuState, text, tag } = useLayoutContext();
+  const { menuState, text, tag } = layoutStore((state) => ({
+    menuState: state.menuState,
+    text: state.text,
+    tag: state.tag
+  }));
 
   const uploadeFeedMutation = useMutation({
     mutationFn: ({ text, tag }: { text: string; tag: any }) => postPeed(text, tag),

@@ -14,7 +14,6 @@ export default function AuthCallback() {
         console.error("Authentication failed:", error);
         router.push("/login");
       } else {
-        console.log("User authenticated:", data.session.user);
         router.push("/"); // 로그인 후 이동할 페이지
       }
     };

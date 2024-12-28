@@ -45,8 +45,6 @@ const SupportList = () => {
               <Edit onClick={(e: any) => {
                 e.stopPropagation();
                 e.preventDefault();
-                console.log('클릭');
-                // redirect(`/inquiry/edit/${item.id}`);
                 router.push(`/inquiry/edit/${item.id}`);
               }} />
               <Delete

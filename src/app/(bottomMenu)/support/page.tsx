@@ -1,13 +1,12 @@
 'use client';
 import Button from "@/components/button/Button";
 import SupportList from "@/components/support/SupportList";
+import { layoutStore } from "@/store/layoutStore";
 import Link from "next/link";
 import s from './support.module.scss';
-import { useContext } from "react";
-import { useLayoutContext } from "@/context/LayoutContext";
 
 const SupportPage = () => {
-  const { setText } = useLayoutContext();
+  const setText = layoutStore((state) => state.setText);
   setText('고객센터')
 
   return (
@@ -15,7 +14,7 @@ const SupportPage = () => {
       <>
         <div className={s.buttons}>
           <Button full className="bg-black">
-            <Link href="/inquiry" className="flex w-full h-full justify-center items-center">
+            <Link href="/inquiry" className="flex items-center justify-center w-full h-full">
               문의하기
             </Link>
           </Button>

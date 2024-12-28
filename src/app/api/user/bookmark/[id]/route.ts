@@ -10,11 +10,14 @@ export async function GET(
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
 
+  const session = await supabase.auth.getUser();
+  const user_name = session.data?.user?.email;
+
   try {
     const { data, error } = await supabase
       .from("bookmarks")
       .select("*")
-      .eq("t_youtube_id", id);
+      .match({ t_youtube_id: id, user_email: user_name });
 
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {

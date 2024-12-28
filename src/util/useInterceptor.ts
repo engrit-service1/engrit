@@ -24,7 +24,7 @@ apiInstance.interceptors.response.use(
     return res;
   },
   async function (err) {
-    console.log("err", err);
+    console.error("err", err);
 
     // 유효하지 않은 토큰
     if (err.response && err.response.status === 400) {

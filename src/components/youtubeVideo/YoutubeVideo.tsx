@@ -4,11 +4,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import YouTube from 'react-youtube';
 import Image from 'next/image';
 import s from './youtubevideo.module.scss';
+import { useGetYoutubeInfoLink } from '@/hooks/useGetYoutubeInfo';
 
-const YoutubeVideo = ({ videoId, onTimeUpdate }: { videoId: string; onTimeUpdate?: (time: number) => void }) => {
+const YoutubeVideo = ({ videoId, onTimeUpdate }: { videoId: string; onTimeUpdate?: (time: number) => void; }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const playerRef = useRef<any>(null);
+  const { playTime } = useGetYoutubeInfoLink(videoId);
 
   const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
   const videoOptions = {
@@ -63,18 +65,28 @@ const YoutubeVideo = ({ videoId, onTimeUpdate }: { videoId: string; onTimeUpdate
     return () => stopInterval(); // 컴포넌트 언마운트 시 인터벌 정리
   }, []);
 
+  const playTimeConvert = (time: any) => {
+    const result = time?.replace('PT', '').replace('M', ':').replace('S', '');
+    return result;
+  }
+
   return (
     <div className={classNames([s.youtube_wrap], {})}>
       {!isPlaying ? (
-        <div className={s.youtube_thumbnail} onClick={handlePlay}>
-          <Image src={thumbnailUrl} alt="YouTube Thumbnail" fill />
-        </div>
+        <>
+          <span className={s.time}>{playTimeConvert(playTime)}</span>
+          <div className={s.youtube_thumbnail} onClick={handlePlay}>
+            <Image src={thumbnailUrl} alt="YouTube Thumbnail" fill />
+          </div>
+        </>
       ) : (
-        <YouTube
-          videoId={videoId}
-          opts={videoOptions}
-          onReady={onReady}
-        />
+        <>
+          <YouTube
+            videoId={videoId}
+            opts={videoOptions}
+            onReady={onReady}
+          />
+        </>
       )}
     </div>
   );

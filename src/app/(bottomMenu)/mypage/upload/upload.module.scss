@@ -1,0 +1,21 @@
+.list {
+  padding: 16px;
+  li {
+    margin-top: 16px;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+  .item {
+    display: flex;
+  }
+  .video {
+    min-width: 44%;
+  }
+  .title {
+    display: flex;
+    p {
+      @include dotdotdot();
+    }
+  }
+}

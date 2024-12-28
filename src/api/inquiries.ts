@@ -16,7 +16,6 @@ export async function getInquiries() {
 
 // 문의 글 index 불러오기
 export async function getInquiriesID(id: number) {
-  console.log("받은 ida1", id);
   try {
     const res = await axios.get(`/api/user/getInquiriesAll/${id}`);
 
@@ -32,7 +31,7 @@ export async function getInquiriesID(id: number) {
 // 문의 하기
 export async function postInquiry(text: string) {
   const res = await axios.post(`/api/user/postInquiry`, {
-    context_text: text,
+    content_text: text,
   });
 
   if (res.status === 200) {

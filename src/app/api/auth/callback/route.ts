@@ -13,14 +13,14 @@ export async function GET(request: Request) {
     if (!error) {
       const forwardedHost = request.headers.get("x-forwarded-host");
       const isLocalEnv = process.env.NODE_ENV === "development";
-
+``
       if (isLocalEnv) {
-        console.log('로컬환경');
+        // console.log('로컬환경');
         return NextResponse.redirect(`${origin}${next}`);
       } else {
-        console.log("배포환경");
-        // return NextResponse.redirect(`https://${forwardedHost ?? origin}`);
-        return NextResponse.redirect(`https://engrit-client.vercel.app`);
+        // console.log("배포환경");
+        return NextResponse.redirect(`https://${forwardedHost ?? origin}`);
+        // return NextResponse.redirect(`https://engrit-client.vercel.app`);
       }
     }
   }

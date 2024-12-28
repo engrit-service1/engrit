@@ -1,8 +1,8 @@
 import { createClient } from "@/util/supabase/server";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const { searchParams, origin } = new URL(request.url);
     const next = searchParams.get("next") ?? "/";
@@ -17,9 +17,7 @@ export async function POST(request: Request) {
       throw new Error("id is required");
     }
 
-    const { data, error } = await supabase
-      .from("bookmarks")
-      .insert([{ t_youtube_id, user_email }]);
+    await supabase.from("bookmarks").insert([{ t_youtube_id, user_email }]);
 
     // if (error) {
     //   console.error("Supabase Error:", error);
@@ -27,7 +25,7 @@ export async function POST(request: Request) {
     // }
 
     // return NextResponse.redirect(`${origin}${next}`);
-    return NextResponse.json({ message: "Post created successfully", data });
+    return NextResponse.json({ message: "Post created successfully" });
   } catch (error) {
     return NextResponse.json({ error: request }, { status: 500 });
   }

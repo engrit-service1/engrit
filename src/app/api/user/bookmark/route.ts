@@ -16,14 +16,12 @@ export async function GET(request: Request) {
       });
     }
 
-    console.log('api email', userEmail);
-
     const { data, error } = await supabase
       .from("bookmarks")
       .select(
         `
         t_youtube_id,
-        youtube (youtube_link, uploader, created_at, tag)
+        youtube (id, youtube_link, uploader, created_at, tag)
       `
       )
       .eq("user_email", userEmail);
@@ -32,7 +30,6 @@ export async function GET(request: Request) {
       throw error;
     }
     // res.status(200).json(data);
-    console.log("dd", data);
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
     // res.status(500).json({ error: error });

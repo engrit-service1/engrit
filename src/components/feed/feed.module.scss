@@ -7,5 +7,5 @@
 
 .feedList {
   overflow-y: auto;
-  // @include scroll-hide;
+  @include scroll-hide;
 }

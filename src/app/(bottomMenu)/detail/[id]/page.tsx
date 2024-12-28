@@ -31,7 +31,7 @@ const DetailPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const trans = await fetchTranscript(videoData[videoIndex]?.videoId);
+      const trans = await fetchTranscript(data[0]?.youtube_link);
       setScript(trans);
     };
     fetchData();

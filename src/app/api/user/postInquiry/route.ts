@@ -5,8 +5,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { searchParams, origin } = new URL(request.url);
-    const next = searchParams.get("next") ?? "/";
+    // const { searchParams, origin } = new URL(request.url);
+    // const next = searchParams.get("next") ?? "/";
     const cookieStore = await cookies();
     const supabase = createClient(cookieStore);
 
@@ -14,11 +14,9 @@ export async function POST(request: Request) {
     const user_name = session.data?.user?.email;
 
     const { content_text } = await request.json();
-    if (!content_text) {
-      throw new Error("context_text is required");
-    }
-
-    console.log("받은 text: ", content_text, user_name);
+    // if (!content_text) {
+    //   throw new Error("context_text is required");
+    // }
 
     const { data, error } = await supabase
       .from("inquiries")
@@ -30,7 +28,7 @@ export async function POST(request: Request) {
     // }
 
     // return NextResponse.redirect(`${origin}${next}`);
-    return NextResponse.json({ message: "Post created successfully", data });
+    return NextResponse.json({ message: "Post created successfully" });
   } catch (error) {
     return NextResponse.json({ error: request }, { status: 500 });
   }

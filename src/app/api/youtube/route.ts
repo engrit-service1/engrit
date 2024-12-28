@@ -12,8 +12,7 @@ export async function GET(request: NextRequest) {
   const transcript = await YoutubeTranscript.fetchTranscript(
     `https://www.youtube.com/watch?v=${videoId}`
   );
-  // console.log(transcript);
-
+  
   // const cleanData = JSON.parse(JSON.stringify(response.data));
   return NextResponse.json({
     transcript,

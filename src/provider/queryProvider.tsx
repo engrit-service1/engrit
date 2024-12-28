@@ -26,7 +26,7 @@ function QueryProviders({ children }: React.PropsWithChildren) {
     queryCache: new QueryCache({
       onError: (error, query) => {
         // 이 부분이 먼저 발생
-        console.log('query', query, error);
+        // console.log('query', query, error);
         toast.error(`Mutation Error: ${error.message}`);
         // if (query?.meta?.errorMessage) {
         // }

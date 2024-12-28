@@ -9,8 +9,10 @@ import { More } from '../images';
 import ShareModal from '../portalModal/shareModal/ShareModal';
 import s from './dropdown.module.scss';
 import { createClient } from '@/util/supabase/client';
+import classNames from 'classnames';
+import { twMerge } from 'tailwind-merge';
 
-const DropDown = ({ sendUploader }: { sendUploader?: string; }) => {
+const DropDown = ({ sendUploader, className }: { sendUploader?: string; className?: string }) => {
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const supabase = createClient();
@@ -59,7 +61,7 @@ const DropDown = ({ sendUploader }: { sendUploader?: string; }) => {
   }, [])
 
   return (
-    <div className='relative cursor-pointer w-28 h-28' onClick={showDropDown} ref={targetRef}>
+    <div className={classNames(twMerge('relative cursor-pointer w-28 h-28 mt-18', className))} onClick={showDropDown} ref={targetRef}>
       <More />
       {
         dropDown &&

@@ -40,7 +40,7 @@ const LoginCheck = () => {
         //   epochConvert(parseJwt(getCookie('ticket-rtk').exp))
         // )
         if (getCookie("ticket-atk") === undefined) {
-          console.log('rtk 있고, atk 언디파인드');
+          // console.log('rtk 있고, atk 언디파인드');
           // setIsLogin(false);
           removeCookie('ticket-atk');
         }

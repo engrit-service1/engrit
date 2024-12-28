@@ -1,11 +1,14 @@
 'use client';
-import { useLayoutContext } from '@/context/LayoutContext';
+import { layoutStore } from '@/store/layoutStore';
 import { useEffect, useState } from 'react';
 import s from './inquiry.module.scss';
 
 const InquiryPage = () => {
   const [inputText, setInputText] = useState('');
-  const { setMenuState, setText } = useLayoutContext();
+  const { setMenuState, setText } = layoutStore((state) => ({
+    setMenuState: state.setMenuState,
+    setText: state.setText,
+  }));
 
   useEffect(() => {
     setMenuState(true);

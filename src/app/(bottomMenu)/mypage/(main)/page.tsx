@@ -15,8 +15,6 @@ const MyPage = () => {
     queryKey: ['myYoutubeUpload']
   });
 
-  console.log('dupl', data);
-
   return (
     <>
       <div>

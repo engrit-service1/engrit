@@ -2,27 +2,46 @@ import axios from "axios";
 import { redirect } from "next/navigation";
 
 // 피드 목록 불러오기
-export async function readPeedApi() {
-  try {
-    const res = await axios.get("/api/feed/getList");
+export async function readPeedApi(
+  serachValue: string,
+  pageParam: number,
+  size: number
+) {
+  if (serachValue) {
+    try {
+      const res = await axios.get(
+        `/api/feed/getList?search=${serachValue}&page=${pageParam}&size=${size}`
+      );
 
-    if (res.status === 200) {
-      return res.data.data;
+      if (res.status === 200) {
+        return res.data.data;
+      }
+    } catch (error) {
+      console.error("Error fetching feed data:", error);
+      return [];
     }
-  } catch (error) {
-    console.error("Error fetching feed data:", error);
-    return [];
+  } else {
+    try {
+      const res = await axios.get(
+        `/api/feed/getList?page=${pageParam}&size=${size}`
+      );
+
+      if (res.status === 200) {
+        return res.data.data;
+      }
+    } catch (error) {
+      console.error("Error fetching feed data:", error);
+      return [];
+    }
   }
 }
 // 피드 업로드 하기
 export async function postPeed(youtubeId: string, tag: string) {
   try {
-    // console.log("API 요청 데이터:", { youtube_link: youtubeId });
     const res = await axios.post("/api/feed/upload", {
       youtube_link: youtubeId,
       tag: tag,
     });
-    console.log("API 응답:", res.data);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error("Axios Error:", error.response?.data || error.message);
@@ -72,10 +91,26 @@ export async function editFeedIDApi(tag: object, id: number) {
 }
 
 // 피드 북마크 저장
-export async function bookmarkFeedIDApi(id: number) {
+export async function bookmarkAddApi(id: number) {
   try {
     const res = await axios.post(`/api/user/bookmark/add`, {
       t_youtube_id: id,
+    });
+
+    if (res.status === 200) {
+      return res.data.data;
+    }
+  } catch (error) {
+    console.error("Error fetching feed data:", error);
+    return [];
+  }
+}
+
+// 피드 북마크 삭제
+export async function bookmarkRemoveApi(id: number) {
+  try {
+    const res = await axios.delete(`/api/user/bookmark/remove`, {
+      data: { t_youtube_id: id },
     });
 
     if (res.status === 200) {
@@ -93,7 +128,7 @@ export async function getBookmarkFeedApi() {
     const res = await axios.get(`/api/user/bookmark`);
 
     if (res.status === 200) {
-      return res.data;
+      return res.data.data;
     }
   } catch (error) {
     console.error("Error fetching feed data:", error);

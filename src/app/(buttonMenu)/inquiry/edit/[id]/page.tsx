@@ -1,14 +1,17 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import s from '../../inquiry.module.scss';
-import { useLayoutContext } from '@/context/LayoutContext';
-import { usePathname } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
 import { getInquiriesID } from '@/api/inquiries';
+import { layoutStore } from '@/store/layoutStore';
+import { useQuery } from '@tanstack/react-query';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import s from '../../inquiry.module.scss';
 
 const InquiryEditPage = () => {
   const [text, setInputText] = useState('');
-  const { setMenuState, setText } = useLayoutContext();
+  const { setMenuState, setText } = layoutStore((state) => ({
+    setText: state.setText,
+    setMenuState: state.setMenuState,
+  }));
   const pathname = usePathname();
 
   const id = Number(pathname?.split('/')[3]);
@@ -43,8 +46,6 @@ const InquiryEditPage = () => {
   const onBluer = () => {
     setText(text);
   }
-
-  console.log('data', data && data[0].content_text);
 
   return (
     <>
